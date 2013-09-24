@@ -1,147 +1,155 @@
 OpenJDK 8 development environment
 =================================
 
-OpenJDK 8 development environment packaged as a VirtualBox VM.
-OS: Ubuntu 12.04
-IDE: Eclipse Kepler 4.3
-Download location (~ 7 GB zipped archive): https://docs.google.com/file/d/0B6c0vUgNZve1M0ZOMWZxM3BsdEE
+OpenJDK 8 development environment packaged as a VirtualBox VM.<br />
+OS: Ubuntu 12.04<br />
+IDE: Eclipse Kepler 4.3<br />
+Download location (~ 7 GB zipped archive): https://docs.google.com/file/d/0B6c0vUgNZve1M0ZOMWZxM3BsdEE<br />
 
-// ************************************
-// This file contains information on 
-// developing on top of the OpenJDK 
-// using Eclipse as the IDE of choice
-// ************************************
+# Basic information
 
-Basic information
-=================
+Local OpenJDK repo is cloned in /home/OpenJDK/dev/jdk8_tl.<br />
+All of the relevant repos are here: hg.openjdk.java.net.<br />
+The eclipse workspace is located under /home/openjdk/workspace.<br />
 
-Local OpenJDK repo is cloned in /home/OpenJDK/dev/jdk8_tl.
-All of the relevant repos are here: hg.openjdk.java.net.
-The eclipse workspace is located under /home/openjdk/workspace.
+# Build
 
-Build
-=====
-
-sudo bash configure - in order to configure the repo locally issue
-ccache -M 3G - this is optional but if issued uses caching to improve incremental building
-make clean images - build all projects
-make <project_name>-only - build a particular project 
-			(e.g. make jdk-only)
+>sudo bash configure - in order to configure the repo locally issue<br />
+>ccache -M 3G - this is optional but if issued uses caching to improve incremental building<br />
+>make clean images - build all projects<br />
+>make <project_name>-only - build a particular project<br /> 
+>			(e.g. make jdk-only)<br />
 			
-Add the JDK_FILTER="[classes]" option to limit the classes to recompile in the jdk project.
+Add the JDK_FILTER="[classes]" option to limit the classes to recompile in the jdk project.<br />
 
-Projects
-========
+# Projects
 
-All of the projects can be built by issuing Run As -> Ant Build on the corresponding project.
-Only hotspot is being build using external 'make' configuration. To build it ussue: Project -> Build Project.
+All of the projects can be built by issuing Run As -> Ant Build on the corresponding project.<br />
+Only hotspot is being build using external 'make' configuration. To build it ussue: Project -> Build Project.<br />
 
--- Swing -- 
+## Swing
 
-Command line build: ant clean build -propertyfile build.properties [&> swingAntBuild.log]
-Deployment artifacts: ~/dev/jdk8_tl/jdk/dist/lib/swing.jar
+Command line build: ant clean build -propertyfile build.properties [&> swingAntBuild.log]<br />
+Deployment artifacts: ~/dev/jdk8_tl/jdk/dist/lib/swing.jar<br />
 
--- JMX --
+## JMX
 
-Command line build: ant clean build -propertyfile build.properties [&> jmxAntBuild.log]
-Deployment artifacts: ~/dev/jdk8_tl/jdk/dist/lib/jmx.jar
+Command line build: ant clean build -propertyfile build.properties [&> jmxAntBuild.log]<br />
+Deployment artifacts: ~/dev/jdk8_tl/jdk/dist/lib/jmx.jar<br />
 
--- JConsole --
+## JConsole
 
-Command line build: ant clean build -propertyfile build.properties [&> jconsoleAntBuild.log]
-Deployment artifacts: ~/dev/jdk8_tl/jdk/dist/lib/jconsole.jar
+Command line build: ant clean build -propertyfile build.properties [&> jconsoleAntBuild.log]<br />
+Deployment artifacts: ~/dev/jdk8_tl/jdk/dist/lib/jconsole.jar<br />
 
--- JAXP/JAXWS -- 
+## JAXP/JAXWS
 
-Command line build: cd ~/dev/jdk8_tl/common/makefiles 
-		make clean jaxp NEWBUILD=true [&> jaxpInfrabuild.log]
-		(make clean jaxws NEWBUILD=true [&> jaxwsInfrabuild.log])
-Deployment artifacts: ~/dev/jdk8_tl/build/linux-x86_64-normal-server-release/jaxp
-			classes/
-			dist/
-		      ~/sources/jdk8_tl/build/linux-x86_64-normal-server-release/jaxws
-			dist/
-			jaf_classes/
-			jaxws_classes/
+Command line build: cd ~/dev/jdk8_tl/common/makefiles <br />
 
--- langtools -- 
+>make clean jaxp NEWBUILD=true [&> jaxpInfrabuild.log]<br />
+>(make clean jaxws NEWBUILD=true [&> jaxwsInfrabuild.log])<br />
 
-Command line build: cd ~/dev/jdk8_tl/common/makefiles
-make clean langtools NEWBUILD=true [&> langtoolsInfrabuild.log]
-Deployment artifacts:
-	~/dev/jdk8_tl/build/linux-x86_64-normal-server-release/langtools
-		btclasses/
- 	   	classes/
-    		dist/
-    		gensrc/
-    		genstubs/
+Deployment artifacts: <br />
+~/dev/jdk8_tl/build/linux-x86_64-normal-server-release/jaxp<br />
 
--- hotspot --
+>classes/<br />
+>dist/<br />
 
-(optional) If you need to configure your hotspot environment issue:
-	cd ~/dev/jdk8_tl//common/makefiles 
-	bash ../autoconf/configure --with-boot-jdk=/usr/lib/jvm/java-7-openjdk-amd64/
-	bash ../autoconf/configure --with-boot-jdk=/usr/lib/jvm/java-7-openjdk-amd64/ JAVAC_FLAGS=-g
-			(to enable generation of debug classfiles)
+~/sources/jdk8_tl/build/linux-x86_64-normal-server-release/jaxws<br />
 
-Command line build:
-	make clean hotspot NEW_BUILD=true [&> hotspotInfraBuild.log]
-	make hotspot NEW_BUILD=true [&> hotspotInfraBuild.log] 
-				(incremental build)
-	make hotspot NEW_BUILD=true DEBUG_CLASSFILES=true &> hotspotInfraBuild-DEBUG_CLASSFILES.log
-				(for generating debug classfiles when building)
-Deployment artifacts:
-The general Hotspot build artefacts are a tree of directories representing the different kinds of builds that can occur e.g.:
-	linux_i586_compiler1 linux x86 client compiler build
-	linux_i586_compiler2 linux x86 server compiler build
-	linux_amd64_compiler1 linux amd64 client compiler build
-	linux_amd64_compiler2 linux amd64 server compiler build
-Those directories then further split into:
-	debug
-	fastdebug
-	generated
-	jvmg
-	optimized
-	product
-	profiles
+>dist/<br />
+>jaf_classes/<br />
+>jaxws_classes/<br />
+
+## langtools
+
+Command line build: cd ~/dev/jdk8_tl/common/makefiles<br />
+
+>make clean langtools NEWBUILD=true [&> langtoolsInfrabuild.log]<br />
+
+Deployment artifacts:<br />
+~/dev/jdk8_tl/build/linux-x86_64-normal-server-release/langtools<br />
+
+>btclasses/<br />
+>classes/<br />
+>dist/<br />
+>gensrc/<br />
+>genstubs/<br />
+
+## hotspot
+
+(optional) If you need to configure your hotspot environment issue:<br />
+
+>	cd ~/dev/jdk8_tl//common/makefiles<br />
+>	bash ../autoconf/configure --with-boot-jdk=/usr/lib/jvm/java-7-openjdk-amd64/<br />
+>	bash ../autoconf/configure --with-boot-jdk=/usr/lib/jvm/java-7-openjdk-amd64/ JAVAC_FLAGS=-g<br />
+>			(to enable generation of debug classfiles)<br />
+
+Command line build:<br />
+
+>	make clean hotspot NEW_BUILD=true [&> hotspotInfraBuild.log]<br />
+>	make hotspot NEW_BUILD=true [&> hotspotInfraBuild.log]<br />
+>				(incremental build)<br />
+>	make hotspot NEW_BUILD=true DEBUG_CLASSFILES=true &> hotspotInfraBuild-DEBUG_CLASSFILES.log<br />
+>				(for generating debug classfiles when building)<br />
+
+Deployment artifacts:<br />
+The general Hotspot build artefacts are a tree of directories representing the different kinds of builds that can occur e.g.:<br />
+
+>	linux_i586_compiler1 linux x86 client compiler build<br />
+>	linux_i586_compiler2 linux x86 server compiler build<br />
+>	linux_amd64_compiler1 linux amd64 client compiler build<br />
+>	linux_amd64_compiler2 linux amd64 server compiler build<br />
+
+Those directories then further split into:<br />
+
+>	debug<br />
+>	fastdebug<br />
+>	generated<br />
+>	jvmg<br />
+>	optimized<br />
+>	product<br />
+>	profiles<br />
 
 Tests
 =====
 
-To run a particular test suite run from the 'tests' directory:
-	make <package> // e.g. make jdk_util
-or
-	make TESTS="<package_1> ... <package_N>"
+To run a particular test suite run from the 'tests' directory:<br />
+>make <package> // e.g. make jdk_util<br />
 
-You can run a particular test using jtreg. For example:
+or<br />
 
-cd $HOME/dev/jdk8_tl/jdk/test
-$HOME/dev/jtreg -verbose:fail java/lang/invoke/AccessControlTest.java
+>make TESTS="<package_1> ... <package_N>"<br />
+
+You can run a particular test using jtreg. For example:<br />
+
+>cd $HOME/dev/jdk8_tl/jdk/test<br />
+>$HOME/dev/jtreg -verbose:fail java/lang/invoke/AccessControlTest.java<br />
 
 References
 ==========
 
-The OpenJDK Developers' Guide
-	http://openjdk.java.net/guide/
-Adopt OpenJDK wiki
-	https://java.net/projects/adoptopenjdk/pages/AdoptOpenJDK
-Getting Started with HotSpot and OpenJDK
-	http://www.infoq.com/articles/Introduction-to-HotSpot
-OpenJDK Governance and Development Process Overview	
-	http://www.youtube.com/watch?v=jebmrXo-Y3Y
-OpenJDK and Adopt OpenJDK
-	http://www.youtube.com/watch?v=GgoXqZgguyo
-Hacking the OpenJDK compiler
-	http://www.ahristov.com/tutorial/java-compiler.html
-How to compile openJDK under Ubuntu
-	www.vogella.com/articles/OpenJDK/article.html
-Meet the OpenJDK Tests
-	http://www.youtube.com/watch?v=ZcOGof_DXcU
-OpenJDK Testing Pitfalls presentation by Stuart W.Marks
-	http://www.youtube.com/watch?v=zKUI5HJVqCs
-Hacking Hotspot in Eclipse
-	http://rkennke.wordpress.com/2012/07/27/hacking-hotspot-in-eclipse/
-HotSpot Internals	
-	https://wikis.oracle.com/display/HotSpotInternals/Home
+The OpenJDK Developers' Guide<br />
+	http://openjdk.java.net/guide/<br />
+Adopt OpenJDK wiki<br />
+	https://java.net/projects/adoptopenjdk/pages/AdoptOpenJDK<br />
+Getting Started with HotSpot and OpenJDK<br />
+	http://www.infoq.com/articles/Introduction-to-HotSpot<br />
+OpenJDK Governance and Development Process Overview<br />
+	http://www.youtube.com/watch?v=jebmrXo-Y3Y<br />
+OpenJDK and Adopt OpenJDK<br />
+	http://www.youtube.com/watch?v=GgoXqZgguyo<br />
+Hacking the OpenJDK compiler<br />
+	http://www.ahristov.com/tutorial/java-compiler.html<br />
+How to compile openJDK under Ubuntu<br />
+	www.vogella.com/articles/OpenJDK/article.html<br />
+Meet the OpenJDK Tests<br />
+	http://www.youtube.com/watch?v=ZcOGof_DXcU<br />
+OpenJDK Testing Pitfalls presentation by Stuart W.Marks<br />
+	http://www.youtube.com/watch?v=zKUI5HJVqCs<br />
+Hacking Hotspot in Eclipse<br />
+	http://rkennke.wordpress.com/2012/07/27/hacking-hotspot-in-eclipse/<br />
+HotSpot Internals<br />	
+	https://wikis.oracle.com/display/HotSpotInternals/Home<br />
 
 
