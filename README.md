@@ -12,6 +12,10 @@ Local OpenJDK repo is cloned in /home/OpenJDK/dev/jdk8_tl.<br />
 All of the relevant repos are here: hg.openjdk.java.net.<br />
 The eclipse workspace is located under /home/openjdk/workspace.<br />
 
+IMPORTANT: In case you open Eclipse and you see no projects you 
+can import them from the /home/openjdk/dev/jdk8_tl folder (using 
+the 'nested projects' option).
+
 # Build
 
 >sudo bash configure - in order to configure the repo locally issue<br />
