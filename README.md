@@ -5,6 +5,7 @@ OpenJDK 8 development environment packaged as a VirtualBox VM.<br />
 OS: Ubuntu 12.04<br />
 IDE: Eclipse Kepler 4.3<br />
 Download location (~ 7 GB zipped archive): https://docs.google.com/file/d/0B6c0vUgNZve1M0ZOMWZxM3BsdEE<br />
+OpenJDK user password: j1a2v3a4
 
 # Basic information
 
