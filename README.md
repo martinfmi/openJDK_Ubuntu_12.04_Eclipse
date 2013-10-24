@@ -13,9 +13,42 @@ Local OpenJDK repo is cloned in /home/OpenJDK/dev/jdk8_tl.<br />
 All of the relevant repos are here: hg.openjdk.java.net.<br />
 The eclipse workspace is located under /home/openjdk/workspace.<br />
 
-IMPORTANT: In case you open Eclipse and you see no projects you 
+IMPORTANT: <br />
+You should add your JDK user (in case you are given commiter rights and you have registered your JDK user- typically your java.net user ) 
+to the Mercurial configuration in ~/dev/jdk8_tl/.hg/hgrc as follows: <br />
+>[ui]<br />
+>username=<OpenJDK_username><br />
+>[extensions]<br />
+>fetch=<br />
+
+In case you open Eclipse and you see no projects you 
 can import them from the /home/openjdk/dev/jdk8_tl folder (using 
 the 'nested projects' option).
+
+# Contribution
+
+To start contributing to OpenJDK you can follow this process:<br />
+1) Sign OCA (Oracle Contributor Agreement) – specify OpenJDK as the the project and your java.net user as the username<br />
+2) Send the signed OCA to oracle-ca_us@oracle.com<br />
+3) Find some interesting bug or enhancement (RFE) to work on from bugs.sun.com<br />
+4) You may subscribe to a particular mailing list of interest<br />
+5) Discuss any changes you want to make in the appropriate mailing list using the format:<br />
+
+>&lt;Bug_or_RFE_Id&gt; : &lt;Bug_or_RFE_Title&gt; <br />
+
+6) Add a proposed code change (patch) to the discussion using any of the following commands:<br />
+
+>hg export -g<br />
+>hg diff -g<br />
+
+7) If applicable attach JTReg tests to the suggested changeset <br /><br />
+
+You may additionally install the 'hgview' that provides a UI for navigating the Mercurial repo:<br />
+>sudo apt-get install hgview<br />
+
+You also may want to enable the 'jcheck' tool in your local repository so that you 
+never create, pull, or import invalid changesets - see http://openjdk.java.net/projects/code-tools/jcheck/.<br />
+
 
 # Build
 
